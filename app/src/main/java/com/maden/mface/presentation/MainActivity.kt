@@ -136,12 +136,12 @@ class MainActivity : AppCompatActivity(), MDetectorListener, MFaceMatchLister {
     }
 
     //Optional
-    override fun faceDetectorUIState(MFaceUiState: MFaceUIState) {
-        super.faceDetectorUIState(MFaceUiState)
+    override fun faceDetectorUIState(mFaceUiState: MFaceUIState) {
+        super.faceDetectorUIState(mFaceUiState)
     }
 
     //Optional
-    override fun faceMatchUIState(MFaceUiState: MFaceUIState) {
-        super.faceMatchUIState(MFaceUiState)
+    override fun faceMatchUIState(mFaceUiState: MFaceUIState) {
+        super.faceMatchUIState(mFaceUiState)
     }
 }
