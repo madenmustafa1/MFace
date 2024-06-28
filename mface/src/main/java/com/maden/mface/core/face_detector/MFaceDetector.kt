@@ -12,9 +12,11 @@ import com.maden.mface.common.log
 import com.maden.mface.core.bitmap.getCropBitmapByCPU
 import com.maden.mface.core.bitmap.getResizedBitmap
 import com.maden.mface.core.bitmap.rotateBitmap
+import com.maden.mface.data.face_match.model.FaceDetectorRequest
 import com.maden.mface.presentation.face_detector.MDetectorListener
 
 internal class MFaceDetector(
+    private val _requestModel: FaceDetectorRequest,
     private val _listener: MDetectorListener
 ) {
 
@@ -37,7 +39,7 @@ internal class MFaceDetector(
                     val boundingBox = RectF(face.boundingBox)
                     val croppedFace = frameBitmap.getCropBitmapByCPU(boundingBox)
 
-                    val scaled = croppedFace.getResizedBitmap(112, 112)
+                    val scaled = croppedFace.getResizedBitmap(_requestModel.width, _requestModel.height)
 
                     "Face Detected".log()
 

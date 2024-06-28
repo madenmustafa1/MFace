@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), MDetectorListener, MFaceMatchLister {
 
-    private val faceDetections = MFaceDetectorEntryPoint(this@MainActivity)
+    private val faceDetections = MFaceDetectorEntryPoint(_listener = this@MainActivity)
     private var faceMatch: MFaceMatchEntryPoint? = null
 
     private val viewModel: MainActivityViewModel by viewModels()

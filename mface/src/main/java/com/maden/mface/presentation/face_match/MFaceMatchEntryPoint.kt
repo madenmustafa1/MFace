@@ -2,15 +2,16 @@ package com.maden.mface.presentation.face_match
 
 import android.content.Context
 import android.graphics.Bitmap
+import com.maden.mface.common.errorLog
 import com.maden.mface.core.face_match.MFaceMatch
-import com.maden.mface.data.face_match.model.FaceMatchRequestModel
+import com.maden.mface.data.face_match.model.FaceMatchRequest
 import com.maden.mface.presentation.MFaceUIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MFaceMatchEntryPoint(
     private val _context: Context,
-    private val _requestModel: FaceMatchRequestModel = FaceMatchRequestModel(),
+    private val _requestModel: FaceMatchRequest = FaceMatchRequest(),
     private val _listener: MFaceMatchLister
 ) {
 
@@ -29,7 +30,9 @@ class MFaceMatchEntryPoint(
         }
 
         if (result.isFailure) {
-            _listener.onFaceMatchError(result.exceptionOrNull()?.message ?: "Unknown sdk error | addFace | #29")
+            val errorMessage = result.exceptionOrNull()?.message ?: "Unknown sdk error | addFace | #29"
+            errorMessage.errorLog()
+            _listener.onFaceMatchError(errorMessage)
         }
 
         _listener.faceMatchUIState(MFaceUIState.FINISH)
@@ -43,7 +46,9 @@ class MFaceMatchEntryPoint(
         }
 
         if (result.isFailure) {
-            _listener.onFaceMatchError(result.exceptionOrNull()?.message ?: "Unknown sdk error | recognizeFace | #39")
+            val errorMessage = result.exceptionOrNull()?.message ?: "Unknown sdk error | recognizeFace | #39"
+            errorMessage.errorLog()
+            _listener.onFaceMatchError(errorMessage)
         }
 
         _listener.faceMatchUIState(MFaceUIState.FINISH)

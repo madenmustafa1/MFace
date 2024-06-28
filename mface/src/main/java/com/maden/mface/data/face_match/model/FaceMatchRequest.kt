@@ -2,7 +2,7 @@ package com.maden.mface.data.face_match.model
 
 import com.maden.mface.core.face_match.FaceMatchConstants
 
-data class FaceMatchRequestModel(
+data class FaceMatchRequest(
     var imageMean: Float = FaceMatchConstants.IMAGE_MEAN,
     var imageStd: Float = FaceMatchConstants.IMAGE_STD,
     var inputSize: Int = FaceMatchConstants.INPUT_SIZE,

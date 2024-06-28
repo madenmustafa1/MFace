@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.maden.mface.common.log
 import com.maden.mface.core.face_match.SimilarityClassifier.Recognition
-import com.maden.mface.data.face_match.model.FaceMatchRequestModel
+import com.maden.mface.data.face_match.model.FaceMatchRequest
 import com.maden.mface.presentation.face_match.MFaceMatchLister
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
@@ -16,7 +16,7 @@ import kotlin.math.sqrt
 
 internal class MFaceMatch(
     private val _context: Context,
-    private val _requestModel: FaceMatchRequestModel,
+    private val _requestModel: FaceMatchRequest,
     private val _listener: MFaceMatchLister
 ) {
     private var _tfLite: Interpreter? = null
