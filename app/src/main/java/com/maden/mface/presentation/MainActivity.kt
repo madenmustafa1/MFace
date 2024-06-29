@@ -19,7 +19,6 @@ import com.maden.mface.util.showInputDialog
 import kotlinx.coroutines.launch
 
 @SuppressLint("SetTextI18n")
-
 class MainActivity : AppCompatActivity(), MDetectorListener, MFaceMatchLister {
 
     private val faceDetections = MFaceDetectorEntryPoint(_listener = this@MainActivity)

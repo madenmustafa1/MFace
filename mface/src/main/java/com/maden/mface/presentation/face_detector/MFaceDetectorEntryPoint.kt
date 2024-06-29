@@ -13,18 +13,34 @@ class MFaceDetectorEntryPoint(
     private val _listener: MDetectorListener
 ) {
 
+    //Initialize the face detector.
     private val _mFaceDetector: MFaceDetector =
         MFaceDetector(
             _requestModel = _requestModel, _listener = _listener
         )
 
+    /**
+     * @description -> Detect face from bitmap.
+     * @description -> Only one face will return
+     *
+     * @param bitmap: Bitmap -> Image to detect face.
+     *
+     * @return onFaceDetected(face: Bitmap) -> captured face from bitmap.
+     * @return onDetectorError(error: String) -> error message.
+     *
+     * @exception Exception -> Corrupted bitmap
+     * @exception IllegalArgumentException -> Null or empty bitmap.
+     */
     suspend fun execute(bitmap: Bitmap) = withContext(Dispatchers.IO) {
+        //Set ui state to loading
         _listener.faceDetectorUIState(MFaceUIState.LOADING)
 
+        //Detect face
         val result = runCatching {
             _mFaceDetector.detectFaces(bitmap)
         }
 
+        //Check result
         if (result.isFailure) {
             val errorMessage =
                 result.exceptionOrNull()?.message ?: "Unknown sdk error | FaceDetector | #17"
@@ -35,6 +51,7 @@ class MFaceDetectorEntryPoint(
             )
         }
 
+        //Set ui state to finish
         _listener.faceDetectorUIState(MFaceUIState.FINISH)
     }
 }

@@ -20,6 +20,7 @@ internal class MFaceDetector(
     private val _listener: MDetectorListener
 ) {
 
+    //Initialize the face detector
     private val _detector: FaceDetector by lazy {
         FaceDetection.getClient(
             FaceDetectorOptions.Builder()
@@ -29,28 +30,40 @@ internal class MFaceDetector(
                 .build()
         )}
 
+
     suspend fun detectFaces(bitmap: Bitmap) {
         _detector.process(InputImage.fromBitmap(bitmap, 0))
             .addOnSuccessListener { faces ->
+                // Task completed successfully
                 if (faces.isNotEmpty()) {
+                    //Get the first face detected
                     val face: Face = faces[0]
+
+                    //Rotate the image
                     val frameBitmap = bitmap.rotateBitmap(0f, false, false)
 
+                    //Get the bounding box of the face
                     val boundingBox = RectF(face.boundingBox)
+
+                    //Get the cropped face
                     val croppedFace = frameBitmap.getCropBitmapByCPU(boundingBox)
 
+                    //Resize the cropped face
                     val scaled = croppedFace.getResizedBitmap(_requestModel.width, _requestModel.height)
 
                     "Face Detected".log()
 
+                    //Call the listener
                     _listener.onFaceDetected(scaled)
                 } else {
                     val message = "No faces detected"
+                    //Call the error listener
                     _listener.onDetectorError("No faces detected")
                     message.errorLog()
                 }
             }
             .addOnFailureListener { e ->
+                //Call the error listener
                 _listener.onDetectorError(e.localizedMessage ?: "Unknown sdk error #58")
                 e.log()
             }

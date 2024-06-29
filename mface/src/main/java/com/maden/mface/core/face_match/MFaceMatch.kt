@@ -1,5 +1,12 @@
 package com.maden.mface.core.face_match
 
+/*
+ * ==============================================================================
+ * This class uses TensorFlow Lite technologies.
+ * @link: https://www.tensorflow.org/lite/examples
+ * ==============================================================================
+ */
+
 import android.content.Context
 import android.graphics.Bitmap
 import com.maden.mface.common.log
@@ -23,6 +30,7 @@ internal class MFaceMatch(
 
     private lateinit var _embeedings: Array<FloatArray>
 
+    //Map to store registered faces
     private val _registeredFaces = HashMap<String, Recognition>()
     private lateinit var _intValues: IntArray
 
@@ -30,6 +38,7 @@ internal class MFaceMatch(
         _tfLite = Interpreter(loadModelFile())
     }
 
+    //Load TFLite model
     private fun loadModelFile(): MappedByteBuffer {
         val fileDescriptor = _context.assets.openFd(_requestModel.modelFile)
         val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
@@ -39,7 +48,9 @@ internal class MFaceMatch(
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
     }
 
+
     suspend fun addFace(name: String, face: Bitmap) {
+        //recognize face
         recognizeImage(bitmap = face)
         val result = Recognition(
             "0",
@@ -48,8 +59,10 @@ internal class MFaceMatch(
         )
 
         result.extra = _embeedings
+        //Add face to the map
         _registeredFaces[name] = result
 
+        //Call the listener
         _listener.addFaceResult(true)
     }
 
@@ -58,15 +71,19 @@ internal class MFaceMatch(
         val imgData =
             ByteBuffer.allocateDirect(1 * _requestModel.inputSize * _requestModel.inputSize * 3 * 4)
 
+        //Set byte order
         imgData.order(ByteOrder.nativeOrder())
 
+        //Normalize image
         _intValues = IntArray(_requestModel.inputSize * _requestModel.inputSize)
 
         //get pixel values from Bitmap to normalize
         bitmap.getPixels(_intValues, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
 
+        //Convert Bitmap to ByteBuffer
         imgData.rewind()
 
+        //Normalize pixel values
         for (i in 0 until _requestModel.inputSize) {
             for (j in 0 until _requestModel.inputSize) {
                 val pixelValue: Int = _intValues[i * _requestModel.inputSize + j]
@@ -107,10 +124,12 @@ internal class MFaceMatch(
 
                 //If distance between Closest found face is more than 1.000 ,then output UNKNOWN face.
                 if (distanceLocal < _requestModel.distance) {
+                    //Call the listener
                     _listener.onRecognizeFace(true, name)
                 } else {
                     val message = "Unknown face"
                     message.log()
+                    //Call the listener
                     _listener.onRecognizeFace(false, "Unknown face")
                 }
             }
@@ -122,15 +141,21 @@ internal class MFaceMatch(
         val neighbourList: MutableList<Pair<String, Float>?> = ArrayList()
         var ret: Pair<String, Float>? = null //to get closest match
         var prevRet: Pair<String, Float>? = null //to get second closest match
+
+        //Find 2 closest matching face
         for ((name, value) in _registeredFaces) {
             val knownEmb = (value.extra as Array<FloatArray>)[0]
 
             var distance = 0f
+            //Calculate distance between 2 faces
             for (i in emb.indices) {
                 val diff = emb[i] - knownEmb[i]
                 distance += diff * diff
             }
+            //Square root of distance
             distance = sqrt(distance.toDouble()).toFloat()
+
+            //Update closest match
             if (ret == null || distance < ret.second) {
                 prevRet = ret
                 ret = Pair(name, distance)
