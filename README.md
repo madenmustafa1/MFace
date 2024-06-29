@@ -1,3 +1,5 @@
+ ![Face Match](gif/face_match.gif)
+
 ### MFace
 
  ##### allows you to easily perform face detection and face matching.
