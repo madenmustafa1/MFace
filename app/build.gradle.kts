@@ -51,5 +51,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(project(":mface"))
+    //implementation("com.github.madenmustafa1:MFace:0.1.1")
     implementation(libs.androidx.activity.ktx)
 }
