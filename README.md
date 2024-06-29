@@ -46,7 +46,7 @@ Version: [![](https://jitpack.io/v/madenmustafa1/MFace.svg)](https://jitpack.io/
 	
 	      //Optional
 	      override fun faceDetectorUIState(mFaceUiState: MFaceUIState)
-	           super.faceDetectorUIState(MFaceUiState)
+	           super.faceDetectorUIState(mFaceUiState)
 	      }
 	}
 
@@ -63,7 +63,7 @@ Version: [![](https://jitpack.io/v/madenmustafa1/MFace.svg)](https://jitpack.io/
 	
 	     override fun onFaceDetected(face: Bitmap) {
 	          //Save Face 
-	          faceMatch!!.addFace(name = viewModel.photoName, face = face)
+	          faceMatch!!.addFace(name = photoName, face = face)
 	
 	          //--- or ---
 	  
