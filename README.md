@@ -1,3 +1,5 @@
+ ![Face Match](gif/face_match.gif)
+
 ### MFace
 
  ##### allows you to easily perform face detection and face matching.
@@ -44,7 +46,7 @@ Version: [![](https://jitpack.io/v/madenmustafa1/MFace.svg)](https://jitpack.io/
 	
 	      //Optional
 	      override fun faceDetectorUIState(mFaceUiState: MFaceUIState)
-	           super.faceDetectorUIState(MFaceUiState)
+	           super.faceDetectorUIState(mFaceUiState)
 	      }
 	}
 
@@ -61,7 +63,7 @@ Version: [![](https://jitpack.io/v/madenmustafa1/MFace.svg)](https://jitpack.io/
 	
 	     override fun onFaceDetected(face: Bitmap) {
 	          //Save Face 
-	          faceMatch!!.addFace(name = viewModel.photoName, face = face)
+	          faceMatch!!.addFace(name = photoName, face = face)
 	
 	          //--- or ---
 	  
@@ -90,3 +92,5 @@ Version: [![](https://jitpack.io/v/madenmustafa1/MFace.svg)](https://jitpack.io/
 
 
 
+
+### [Example](https://github.com/madenmustafa1/MFace/blob/main/app/src/main/java/com/maden/mface/presentation/MainActivity.kt "Click")
