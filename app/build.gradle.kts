@@ -50,7 +50,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":mface"))
-    //implementation("com.github.madenmustafa1:MFace:0.1.1")
+    //implementation(project(":mface"))
+    implementation("com.github.madenmustafa1:MFace:0.1.2")
     implementation(libs.androidx.activity.ktx)
 }
